@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:music_player/src/ui/screens/home/widgets/music_tile.dart';
 import 'package:music_player/src/ui/screens/home/widgets/music_tile_full.dart';
 import 'package:music_player/src/ui/screens/home/widgets/recently_played.dart';
+import 'package:music_player/src/ui/widgets/bottom_player.dart';
 import 'package:music_player/src/ui/widgets/header.dart';
 import 'package:music_player/src/ui/widgets/pill_button.dart';
 
@@ -11,6 +12,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      bottomNavigationBar: BottomPlayer(),
       appBar: Header(),
       body: Container(
         margin: EdgeInsets.symmetric(horizontal: 10),
