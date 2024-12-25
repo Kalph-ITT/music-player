@@ -33,7 +33,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     label: 'Scan music',
                     icon: Icons.audio_file,
                     onTap: () {
-                      HomeService().selectFile();
+                      HomeService().scanFiles();
                     },
                   ),
                   PillButton(

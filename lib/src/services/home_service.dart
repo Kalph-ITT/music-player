@@ -1,20 +1,24 @@
-import 'package:file_picker/file_picker.dart';
 import 'package:music_player/src/utils/permission_handler.dart';
+import 'package:on_audio_query/on_audio_query.dart';
 
 class HomeService {
   Future<bool> checkPermissions() async {
     return await requestStoragePermission();
   }
 
-  selectFile() async {
+  Future<List<SongModel>> scanFiles() async {
+    final OnAudioQuery audioQuery = OnAudioQuery();
     var isGranted = await checkPermissions();
     if (!isGranted) {
       print('Permission not granted');
-      return;
+      return [];
     }
-    FilePickerResult? result = await FilePicker.platform.pickFiles(
-      type: FileType.audio,
+
+    List<SongModel> audios = await audioQuery.querySongs(
+      ignoreCase: true,
     );
-    print(result);
+    print(audios[0].displayName);
+
+    return audios;
   }
 }
