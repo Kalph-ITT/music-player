@@ -16,48 +16,50 @@ class HomeScreen extends StatelessWidget {
       appBar: Header(),
       body: Container(
         margin: EdgeInsets.symmetric(horizontal: 10),
-        child: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                PillButton(
-                  label: 'Scan music',
-                  icon: Icons.audio_file,
-                ),
-                PillButton(
-                  label: 'Scan music',
-                  icon: Icons.play_circle,
-                ),
-              ],
-            ),
-            HomePlayedSection(
-              title: 'Recently Played',
-              child: [
-                MusicTile(
-                  title: 'Song Title',
-                  artist: 'Artist Name',
-                ),
-                MusicTile(
-                  title: 'Song Title',
-                  artist: 'Artist Name',
-                ),
-                MusicTile(
-                  title: 'Song Title',
-                  artist: 'Artist Name',
-                ),
-              ],
-            ),
-            HomePlayedSection(
-              title: 'Most played',
-              child: [
-                MusicTileFull(
-                  title: 'Song Title',
-                  artist: 'Artist Name',
-                ),
-              ],
-            ),
-          ],
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  PillButton(
+                    label: 'Scan music',
+                    icon: Icons.audio_file,
+                  ),
+                  PillButton(
+                    label: 'Scan music',
+                    icon: Icons.play_circle,
+                  ),
+                ],
+              ),
+              HomePlayedSection(
+                title: 'Recently Played',
+                child: [
+                  MusicTile(
+                    title: 'Song Title',
+                    artist: 'Artist Name',
+                  ),
+                  MusicTile(
+                    title: 'Song Title',
+                    artist: 'Artist Name',
+                  ),
+                  MusicTile(
+                    title: 'Song Title',
+                    artist: 'Artist Name',
+                  ),
+                ],
+              ),
+              HomePlayedSection(
+                title: 'Most played',
+                child: [
+                  MusicTileFull(
+                    title: 'Song Title',
+                    artist: 'Artist Name',
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

@@ -12,8 +12,8 @@ class HomePlayedSection extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 20),
       child: Column(
-        spacing: 30,
         crossAxisAlignment: CrossAxisAlignment.start,
+        spacing: 30,
         children: [
           Text(
             title,
@@ -21,9 +21,15 @@ class HomePlayedSection extends StatelessWidget {
                   fontWeight: FontWeight.w700,
                 ),
           ),
-          Row(
-            spacing: 20,
-            children: child,
+          SizedBox(
+            width: MediaQuery.of(context).size.width,
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                spacing: 20,
+                children: child,
+              ),
+            ),
           )
         ],
       ),
