@@ -25,10 +25,16 @@ class HomeScreen extends StatelessWidget {
                   PillButton(
                     label: 'Scan music',
                     icon: Icons.audio_file,
+                    onTap: () {
+                      print('Scan music');
+                    },
                   ),
                   PillButton(
-                    label: 'Scan music',
+                    label: 'Play',
                     icon: Icons.play_circle,
+                    onTap: () {
+                      print('Scan music');
+                    },
                   ),
                 ],
               ),
