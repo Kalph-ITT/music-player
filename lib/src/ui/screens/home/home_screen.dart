@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:music_player/src/services/home_service.dart';
+
 import 'package:music_player/src/ui/screens/home/widgets/music_tile.dart';
 import 'package:music_player/src/ui/screens/home/widgets/music_tile_full.dart';
 import 'package:music_player/src/ui/screens/home/widgets/recently_played.dart';
@@ -6,9 +8,14 @@ import 'package:music_player/src/ui/widgets/bottom_player.dart';
 import 'package:music_player/src/ui/widgets/header.dart';
 import 'package:music_player/src/ui/widgets/pill_button.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,6 +33,9 @@ class HomeScreen extends StatelessWidget {
                     label: 'Scan music',
                     icon: Icons.audio_file,
                     onTap: () {
+                      HomeService.checkPermissions().then((value) {
+                        return value;
+                      });
                       print('Scan music');
                     },
                   ),
