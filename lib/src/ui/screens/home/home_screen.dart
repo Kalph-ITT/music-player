@@ -20,7 +20,9 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: BottomPlayer(),
-      appBar: Header(),
+      appBar: Header(
+        title: 'Music player',
+      ),
       body: Container(
         margin: EdgeInsets.symmetric(horizontal: 10),
         child: SingleChildScrollView(
