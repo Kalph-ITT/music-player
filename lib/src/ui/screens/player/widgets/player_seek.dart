@@ -14,6 +14,7 @@ class PlayerSeekState extends ConsumerState<PlayerSeek> {
   bool isShuffle = false;
   double _currentSliderValue = 0.0;
   Duration _currentPosition = Duration.zero;
+  Duration totalDuration = Duration.zero;
 
   @override
   initState() {
@@ -22,16 +23,19 @@ class PlayerSeekState extends ConsumerState<PlayerSeek> {
   }
 
   getTotalDuration() {
-    var totalSeconds = ref.watch(playerProvider).duration;
+    var totalSeconds = ref.read(playerProvider).duration;
     return Duration(seconds: totalSeconds.toInt());
   }
 
   void getCurrentDuration() {
     final stream = ref.read(playerProvider.notifier).getCurrentPosition();
+
     stream.listen((event) {
       setState(() {
         _currentPosition = event;
-        _currentSliderValue = event.inSeconds.toDouble();
+        if (_currentSliderValue < totalDuration.inSeconds.toDouble()) {
+          _currentSliderValue = event.inSeconds.toDouble();
+        }
       });
     });
   }
@@ -48,6 +52,8 @@ class PlayerSeekState extends ConsumerState<PlayerSeek> {
   @override
   Widget build(BuildContext context) {
     var totalDuration = getTotalDuration();
+    totalDuration = totalDuration ?? Duration.zero;
+
     return Column(
       children: [
         Slider(

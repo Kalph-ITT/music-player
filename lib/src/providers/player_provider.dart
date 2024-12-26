@@ -6,7 +6,7 @@ import 'package:music_player/src/models/music.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
 class PlayerProvider extends StateNotifier<Music> {
-  final player = AudioPlayer();
+  final AudioPlayer player = AudioPlayer();
   PlayerProvider()
       : super(
           Music(title: '', url: '', duration: 0.0, artist: '', id: 0),
@@ -47,7 +47,7 @@ class PlayerProvider extends StateNotifier<Music> {
     );
   }
 
-  getPlayer() => player;
+  AudioPlayer getPlayer() => player;
 }
 
 final playerProvider =

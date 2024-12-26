@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:just_audio/just_audio.dart';
 import 'package:music_player/src/enum/repeat.dart';
 import 'package:music_player/src/providers/player_provider.dart';
 
@@ -28,6 +29,7 @@ class PlayerControlsState extends ConsumerState<PlayerControls> {
   }
 
   IconButton getRepeatModeIcon() {
+    AudioPlayer player = ref.read(playerProvider.notifier).getPlayer();
     switch (repeatMode) {
       case RepeatMode.RepeatAll:
         return IconButton(
@@ -35,6 +37,7 @@ class PlayerControlsState extends ConsumerState<PlayerControls> {
           color: Theme.of(context).colorScheme.surfaceTint,
           icon: Icon(Icons.repeat),
           onPressed: () {
+            player.setLoopMode(LoopMode.one);
             setState(() {
               repeatMode = RepeatMode.RepeatOne;
             });
@@ -47,6 +50,7 @@ class PlayerControlsState extends ConsumerState<PlayerControls> {
           color: Theme.of(context).colorScheme.surfaceTint,
           icon: Icon(Icons.repeat_one),
           onPressed: () {
+            player.setLoopMode(LoopMode.off);
             setState(() {
               repeatMode = RepeatMode.RepeatNone;
             });
@@ -60,6 +64,7 @@ class PlayerControlsState extends ConsumerState<PlayerControls> {
           icon: Icon(Icons.repeat),
           onPressed: () {
             setState(() {
+              player.setLoopMode(LoopMode.all);
               repeatMode = RepeatMode.RepeatAll;
             });
           },
