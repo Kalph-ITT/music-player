@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:music_player/src/ui/screens/player/widgets/album_art.dart';
+import 'package:music_player/src/ui/screens/player/widgets/player_controls.dart';
 import 'package:music_player/src/ui/widgets/header.dart';
 
 class PlayerScreen extends StatelessWidget {
@@ -10,8 +12,22 @@ class PlayerScreen extends StatelessWidget {
       appBar: Header(
         title: 'Song name',
       ),
-      body: Center(
-        child: Text('Player Screen'),
+      body: SizedBox(
+        width: double.infinity,
+        child: Container(
+          margin: EdgeInsets.symmetric(horizontal: 10),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              AlbumArt(),
+              SizedBox(
+                height: 40,
+              ),
+              PlayerControls()
+            ],
+          ),
+        ),
       ),
     );
   }

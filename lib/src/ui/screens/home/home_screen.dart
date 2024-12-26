@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:music_player/src/routes/route_constants.dart';
 import 'package:music_player/src/services/home_service.dart';
 
 import 'package:music_player/src/ui/screens/home/widgets/music_tile.dart';
@@ -42,7 +44,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     label: 'Play',
                     icon: Icons.play_circle,
                     onTap: () {
-                      print('Scan music');
+                      GoRouter.of(context).pushNamed(RouteConstants.player);
                     },
                   ),
                 ],

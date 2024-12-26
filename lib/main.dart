@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:music_player/src/routes/routes.dart';
 import 'package:music_player/src/theme/theme.dart';
-import 'package:music_player/src/ui/screens/home/home_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -12,11 +12,11 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       debugShowCheckedModeBanner: false,
       title: 'Music player',
       theme: AppTheme.getCurrentTheme,
-      home: const HomeScreen(),
+      routerConfig: AppRouter.router,
     );
   }
 }
