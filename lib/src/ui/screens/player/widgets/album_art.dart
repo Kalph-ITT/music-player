@@ -10,8 +10,22 @@ class AlbumArt extends StatelessWidget {
         Container(
           height: 250,
           width: 250,
-          color: Colors.lime,
+          color: Theme.of(context).colorScheme.primary,
         ),
+        SizedBox(
+          height: 20,
+        ),
+        Text(
+          'Title Name',
+          style: Theme.of(context)
+              .textTheme
+              .titleLarge!
+              .copyWith(fontWeight: FontWeight.bold),
+        ),
+        SizedBox(
+          height: 10,
+        ),
+        Text('Artist Name', style: Theme.of(context).textTheme.titleMedium!),
       ],
     );
   }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:music_player/src/ui/screens/player/widgets/album_art.dart';
 import 'package:music_player/src/ui/screens/player/widgets/player_controls.dart';
+import 'package:music_player/src/ui/screens/player/widgets/player_seek.dart';
 import 'package:music_player/src/ui/widgets/header.dart';
 
 class PlayerScreen extends StatelessWidget {
@@ -22,8 +23,9 @@ class PlayerScreen extends StatelessWidget {
             children: [
               AlbumArt(),
               SizedBox(
-                height: 40,
+                height: 20,
               ),
+              PlayerSeek(),
               PlayerControls()
             ],
           ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:music_player/src/enum/repeat.dart';
 
 class PlayerControls extends StatefulWidget {
   const PlayerControls({super.key});
@@ -8,6 +9,49 @@ class PlayerControls extends StatefulWidget {
 }
 
 class _PlayerControlsState extends State<PlayerControls> {
+  bool isShuffle = false;
+  RepeatMode repeatMode = RepeatMode.RepeatNone;
+
+  IconButton getRepeatModeIcon() {
+    switch (repeatMode) {
+      case RepeatMode.RepeatAll:
+        return IconButton(
+          iconSize: 30,
+          color: Theme.of(context).colorScheme.surfaceTint,
+          icon: Icon(Icons.repeat),
+          onPressed: () {
+            setState(() {
+              repeatMode = RepeatMode.RepeatOne;
+            });
+          },
+        );
+
+      case RepeatMode.RepeatOne:
+        return IconButton(
+          iconSize: 30,
+          color: Theme.of(context).colorScheme.surfaceTint,
+          icon: Icon(Icons.repeat_one),
+          onPressed: () {
+            setState(() {
+              repeatMode = RepeatMode.RepeatNone;
+            });
+          },
+        );
+
+      case RepeatMode.RepeatNone:
+        return IconButton(
+          iconSize: 30,
+          color: Theme.of(context).colorScheme.surfaceBright,
+          icon: Icon(Icons.repeat),
+          onPressed: () {
+            setState(() {
+              repeatMode = RepeatMode.RepeatAll;
+            });
+          },
+        );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -15,46 +59,20 @@ class _PlayerControlsState extends State<PlayerControls> {
         SizedBox(
           height: 20,
         ),
-        Text(
-          'Title Name',
-          style: Theme.of(context)
-              .textTheme
-              .titleLarge!
-              .copyWith(fontWeight: FontWeight.bold),
-        ),
-        SizedBox(
-          height: 10,
-        ),
-        Text('Artist Name', style: Theme.of(context).textTheme.titleMedium!),
-        SizedBox(
-          height: 30,
-        ),
-        Container(
-          height: 10,
-          width: double.infinity,
-          color: Colors.red,
-        ),
-        SizedBox(
-          height: 10,
-        ),
-        Row(
-          children: [
-            Text('0:00'),
-            Spacer(),
-            Text('3:00'),
-          ],
-        ),
-        SizedBox(
-          height: 40,
-        ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             IconButton(
               iconSize: 30,
-              color: Theme.of(context).colorScheme.surfaceBright,
-              icon: Icon(Icons.replay_10),
-              onPressed: () {},
+              color: isShuffle
+                  ? Theme.of(context).colorScheme.surfaceTint
+                  : Theme.of(context).colorScheme.surfaceBright,
+              icon: Icon(Icons.shuffle),
+              onPressed: () {
+                setState(() {
+                  isShuffle = !isShuffle;
+                });
+              },
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -79,12 +97,7 @@ class _PlayerControlsState extends State<PlayerControls> {
                 ),
               ],
             ),
-            IconButton(
-              iconSize: 30,
-              color: Theme.of(context).colorScheme.surfaceBright,
-              icon: Icon(Icons.forward_10),
-              onPressed: () {},
-            ),
+            getRepeatModeIcon()
           ],
         ),
       ],
