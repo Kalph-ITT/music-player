@@ -5,10 +5,11 @@ class PlayerControls extends StatefulWidget {
   const PlayerControls({super.key});
 
   @override
-  _PlayerControlsState createState() => _PlayerControlsState();
+  PlayerControlsState createState() => PlayerControlsState();
 }
 
-class _PlayerControlsState extends State<PlayerControls> {
+class PlayerControlsState extends State<PlayerControls> {
+  bool isMusicPlaying = false;
   bool isShuffle = false;
   RepeatMode repeatMode = RepeatMode.RepeatNone;
 
@@ -86,8 +87,14 @@ class _PlayerControlsState extends State<PlayerControls> {
                 IconButton(
                   iconSize: 80,
                   color: Theme.of(context).colorScheme.primary,
-                  icon: Icon(Icons.play_circle_filled_outlined),
-                  onPressed: () {},
+                  icon: Icon(isMusicPlaying
+                      ? Icons.pause_circle_filled
+                      : Icons.play_circle_filled),
+                  onPressed: () {
+                    setState(() {
+                      isMusicPlaying = !isMusicPlaying;
+                    });
+                  },
                 ),
                 IconButton(
                   color: Theme.of(context).colorScheme.surfaceBright,
