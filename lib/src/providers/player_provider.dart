@@ -2,18 +2,7 @@ import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:just_audio/just_audio.dart';
-
-class Music {
-  final String title;
-  final String url;
-  final double duration;
-
-  Music({
-    required this.title,
-    required this.url,
-    required this.duration,
-  });
-}
+import 'package:music_player/src/models/music.dart';
 
 class PlayerProvider extends StateNotifier<Music> {
   final player = AudioPlayer();

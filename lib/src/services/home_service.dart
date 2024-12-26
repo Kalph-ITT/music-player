@@ -17,7 +17,6 @@ class HomeService {
     List<SongModel> audios = await audioQuery.querySongs(
       ignoreCase: true,
     );
-    print(audios[0].displayName);
 
     return audios;
   }

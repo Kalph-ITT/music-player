@@ -9,6 +9,7 @@ import 'package:music_player/src/ui/screens/home/widgets/recently_played.dart';
 import 'package:music_player/src/ui/widgets/bottom_player.dart';
 import 'package:music_player/src/ui/widgets/header.dart';
 import 'package:music_player/src/ui/widgets/pill_button.dart';
+import 'package:on_audio_query/on_audio_query.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -18,6 +19,20 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  List<SongModel> songs = [];
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    HomeService().scanFiles().then((value) {
+      setState(() {
+        songs = value;
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,20 +66,13 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               HomePlayedSection(
                 title: 'Recently Played',
-                child: [
-                  MusicTile(
-                    title: 'Song Title',
-                    artist: 'Artist Name',
-                  ),
-                  MusicTile(
-                    title: 'Song Title',
-                    artist: 'Artist Name',
-                  ),
-                  MusicTile(
-                    title: 'Song Title',
-                    artist: 'Artist Name',
-                  ),
-                ],
+                child: songs.map((song) {
+                  print(song.duration);
+                  return MusicTile(
+                    title: song.title,
+                    artist: song.artist ?? 'Unknown',
+                  );
+                }).toList(),
               ),
               HomePlayedSection(
                 title: 'Most played',

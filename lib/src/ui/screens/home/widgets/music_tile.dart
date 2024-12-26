@@ -21,7 +21,15 @@ class MusicTile extends StatelessWidget {
         SizedBox(
           height: 10,
         ),
-        Text(title, style: Theme.of(context).textTheme.bodyMedium),
+        SizedBox(
+          width: 100,
+          child: Text(
+            title,
+            style: Theme.of(context).textTheme.bodyMedium,
+            overflow: TextOverflow.ellipsis,
+            maxLines: 2,
+          ),
+        ),
         Text(artist, style: Theme.of(context).textTheme.bodySmall),
       ],
     );
