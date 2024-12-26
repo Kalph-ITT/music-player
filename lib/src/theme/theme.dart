@@ -8,6 +8,9 @@ class AppTheme {
       useMaterial3: true,
       scaffoldBackgroundColor: Colors.black,
       appBarTheme: const AppBarTheme(
+        iconTheme: IconThemeData(
+          color: Colors.white,
+        ),
         backgroundColor: Colors.black,
         elevation: 0,
       ),

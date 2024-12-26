@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:just_audio/just_audio.dart';
 import 'package:music_player/src/enum/repeat.dart';
 import 'package:music_player/src/providers/player_provider.dart';
 
@@ -15,15 +14,6 @@ class PlayerControlsState extends ConsumerState<PlayerControls> {
   bool isMusicPlaying = false;
   bool isShuffle = false;
   RepeatMode repeatMode = RepeatMode.RepeatNone;
-
-  @override
-  void initState() {
-    super.initState();
-    ref
-        .read(playerProvider.notifier)
-        .setUrl('https://www2.cs.uic.edu/~i101/SoundFiles/StarWars60.wav');
-    WidgetsBinding.instance.addPostFrameCallback((_) {});
-  }
 
   void playPause() async {
     final player = ref.read(playerProvider.notifier).getPlayer();

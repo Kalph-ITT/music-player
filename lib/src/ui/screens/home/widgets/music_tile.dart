@@ -1,37 +1,47 @@
 import 'package:flutter/material.dart';
+import 'package:on_audio_query/on_audio_query.dart';
 
 class MusicTile extends StatelessWidget {
-  final String title;
-  final String artist;
-  const MusicTile({super.key, required this.title, required this.artist});
+  final SongModel song;
+  final void Function() onTap;
+  const MusicTile({
+    super.key,
+    required this.song,
+    required this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Container(
-          margin: EdgeInsets.only(right: 10),
-          width: 100,
-          height: 100,
-          decoration: BoxDecoration(
-            color: Colors.grey,
-            borderRadius: BorderRadius.circular(10),
+    return GestureDetector(
+      onTap: onTap,
+      child: Column(
+        children: [
+          QueryArtworkWidget(
+            id: song.id,
+            type: ArtworkType.AUDIO,
+            artworkBorder: BorderRadius.circular(5),
+            nullArtworkWidget: Icon(
+              Icons.music_note,
+              size: 50,
+              color: Theme.of(context).colorScheme.surfaceBright,
+            ),
           ),
-        ),
-        SizedBox(
-          height: 10,
-        ),
-        SizedBox(
-          width: 100,
-          child: Text(
-            title,
-            style: Theme.of(context).textTheme.bodyMedium,
-            overflow: TextOverflow.ellipsis,
-            maxLines: 2,
+          SizedBox(
+            height: 10,
           ),
-        ),
-        Text(artist, style: Theme.of(context).textTheme.bodySmall),
-      ],
+          SizedBox(
+            width: 100,
+            child: Text(
+              song.title,
+              style: Theme.of(context).textTheme.bodyMedium,
+              overflow: TextOverflow.ellipsis,
+              maxLines: 2,
+            ),
+          ),
+          Text(song.artist ?? 'unknown',
+              style: Theme.of(context).textTheme.bodySmall),
+        ],
+      ),
     );
   }
 }

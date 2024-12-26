@@ -1,22 +1,35 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:music_player/src/models/music.dart';
+import 'package:music_player/src/providers/player_provider.dart';
+import 'package:on_audio_query/on_audio_query.dart';
 
-class AlbumArt extends StatelessWidget {
+class AlbumArt extends ConsumerWidget {
   const AlbumArt({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    Music music = ref.watch(playerProvider);
     return Column(
       children: [
-        Container(
-          height: 250,
-          width: 250,
-          color: Theme.of(context).colorScheme.primary,
+        QueryArtworkWidget(
+          artworkHeight: 250,
+          artworkWidth: 250,
+          id: music.id,
+          type: ArtworkType.AUDIO,
+          artworkBorder: BorderRadius.circular(5),
+          nullArtworkWidget: Icon(
+            Icons.music_note,
+            size: 50,
+            color: Theme.of(context).colorScheme.surfaceBright,
+          ),
         ),
         SizedBox(
           height: 20,
         ),
         Text(
-          'Title Name',
+          music.title,
+          textAlign: TextAlign.center,
           style: Theme.of(context)
               .textTheme
               .titleLarge!
@@ -25,7 +38,7 @@ class AlbumArt extends StatelessWidget {
         SizedBox(
           height: 10,
         ),
-        Text('Artist Name', style: Theme.of(context).textTheme.titleMedium!),
+        Text(music.artist, style: Theme.of(context).textTheme.titleMedium!),
       ],
     );
   }

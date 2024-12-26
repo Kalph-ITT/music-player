@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:music_player/src/providers/player_provider.dart';
 import 'package:music_player/src/routes/route_constants.dart';
 import 'package:music_player/src/services/home_service.dart';
 
@@ -11,19 +13,18 @@ import 'package:music_player/src/ui/widgets/header.dart';
 import 'package:music_player/src/ui/widgets/pill_button.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
-class HomeScreen extends StatefulWidget {
+class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  ConsumerState<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends ConsumerState<HomeScreen> {
   List<SongModel> songs = [];
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
 
     HomeService().scanFiles().then((value) {
@@ -31,6 +32,13 @@ class _HomeScreenState extends State<HomeScreen> {
         songs = value;
       });
     });
+  }
+
+  void onTapMusicTile(SongModel song) async {
+    if (song.uri == null) return;
+    ref.read(playerProvider.notifier).setMusicMetaData(song);
+    ref.read(playerProvider.notifier).setUrl(song.uri!);
+    GoRouter.of(context).pushNamed(RouteConstants.player);
   }
 
   @override
@@ -65,12 +73,13 @@ class _HomeScreenState extends State<HomeScreen> {
                 ],
               ),
               HomePlayedSection(
-                title: 'Recently Played',
+                title: 'Your Music',
                 child: songs.map((song) {
-                  print(song.duration);
                   return MusicTile(
-                    title: song.title,
-                    artist: song.artist ?? 'Unknown',
+                    onTap: () {
+                      onTapMusicTile(song);
+                    },
+                    song: song,
                   );
                 }).toList(),
               ),
