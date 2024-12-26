@@ -1,17 +1,41 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:just_audio/just_audio.dart';
 import 'package:music_player/src/enum/repeat.dart';
+import 'package:music_player/src/providers/player_provider.dart';
 
-class PlayerControls extends StatefulWidget {
+class PlayerControls extends ConsumerStatefulWidget {
   const PlayerControls({super.key});
 
   @override
   PlayerControlsState createState() => PlayerControlsState();
 }
 
-class PlayerControlsState extends State<PlayerControls> {
+class PlayerControlsState extends ConsumerState<PlayerControls> {
   bool isMusicPlaying = false;
   bool isShuffle = false;
   RepeatMode repeatMode = RepeatMode.RepeatNone;
+
+  @override
+  void initState() {
+    super.initState();
+    ref
+        .read(playerProvider.notifier)
+        .setUrl('https://www2.cs.uic.edu/~i101/SoundFiles/StarWars60.wav');
+    WidgetsBinding.instance.addPostFrameCallback((_) {});
+  }
+
+  void playPause() async {
+    final player = ref.read(playerProvider.notifier).getPlayer();
+    if (isMusicPlaying) {
+      player.pause();
+    } else {
+      player.play();
+    }
+    setState(() {
+      isMusicPlaying = !isMusicPlaying;
+    });
+  }
 
   IconButton getRepeatModeIcon() {
     switch (repeatMode) {
@@ -90,11 +114,7 @@ class PlayerControlsState extends State<PlayerControls> {
                   icon: Icon(isMusicPlaying
                       ? Icons.pause_circle_filled
                       : Icons.play_circle_filled),
-                  onPressed: () {
-                    setState(() {
-                      isMusicPlaying = !isMusicPlaying;
-                    });
-                  },
+                  onPressed: playPause,
                 ),
                 IconButton(
                   color: Theme.of(context).colorScheme.surfaceBright,

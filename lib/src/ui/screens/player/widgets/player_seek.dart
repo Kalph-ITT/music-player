@@ -1,40 +1,60 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:music_player/src/providers/player_provider.dart';
+import 'package:music_player/src/utils/duration_formatter.dart';
 
-class PlayerSeek extends StatefulWidget {
+class PlayerSeek extends ConsumerStatefulWidget {
   const PlayerSeek({super.key});
 
   @override
-  _PlayerSeekState createState() => _PlayerSeekState();
+  PlayerSeekState createState() => PlayerSeekState();
 }
 
-class _PlayerSeekState extends State<PlayerSeek> {
+class PlayerSeekState extends ConsumerState<PlayerSeek> {
   bool isShuffle = false;
   double _currentSliderValue = 0.0;
   Duration _currentPosition = Duration.zero;
-  final Duration _totalDuration = Duration(minutes: 3);
 
-  String _formatDuration(Duration duration) {
-    String twoDigits(int n) => n.toString().padLeft(2, '0');
-    final minutes = twoDigits(duration.inMinutes.remainder(60));
-    final seconds = twoDigits(duration.inSeconds.remainder(60));
-    return '$minutes:$seconds';
+  @override
+  initState() {
+    super.initState();
+    getCurrentDuration();
+  }
+
+  getTotalDuration() {
+    var totalSeconds = ref.watch(playerProvider).duration;
+    return Duration(seconds: totalSeconds.toInt());
+  }
+
+  void getCurrentDuration() {
+    final stream = ref.read(playerProvider.notifier).getCurrentPosition();
+    stream.listen((event) {
+      setState(() {
+        _currentPosition = event;
+        _currentSliderValue = event.inSeconds.toDouble();
+      });
+    });
+  }
+
+  void seekMusic(value) {
+    setState(() {
+      _currentSliderValue = value;
+      _currentPosition = Duration(seconds: value.toInt());
+
+      ref.read(playerProvider.notifier).getPlayer().seek(_currentPosition);
+    });
   }
 
   @override
   Widget build(BuildContext context) {
+    var totalDuration = getTotalDuration();
     return Column(
       children: [
         Slider(
           value: _currentSliderValue,
           min: 0.0,
-          max: _totalDuration.inSeconds.toDouble(),
-          onChanged: (value) {
-            setState(() {
-              _currentSliderValue = value;
-              _currentPosition = Duration(seconds: value.toInt());
-            });
-            // Add logic to seek the music to the new position
-          },
+          max: totalDuration.inSeconds.toDouble(),
+          onChanged: seekMusic,
         ),
         SizedBox(
           height: 10,
@@ -42,8 +62,8 @@ class _PlayerSeekState extends State<PlayerSeek> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(_formatDuration(_currentPosition)),
-            Text(_formatDuration(_totalDuration)),
+            Text(formatDuration(_currentPosition)),
+            Text(formatDuration(totalDuration)),
           ],
         ),
       ],
