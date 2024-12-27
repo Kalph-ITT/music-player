@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:music_player/src/providers/player_provider.dart';
+
 import 'package:music_player/src/utils/duration_formatter.dart';
 
 class PlayerSeek extends ConsumerStatefulWidget {
@@ -33,14 +34,19 @@ class PlayerSeekState extends ConsumerState<PlayerSeek> {
   }
 
   getTotalDuration() {
-    var totalSeconds = ref.read(playerProvider).duration;
+    Duration? totalSeconds = ref.read(playerProvider).duration;
+
+    if (totalSeconds == null) {
+      return;
+    }
+
     setState(() {
-      totalDuration = Duration(seconds: totalSeconds.toInt());
+      totalDuration = Duration(seconds: totalSeconds.inSeconds.toInt());
     });
   }
 
   void getCurrentDuration() {
-    final stream = ref.read(playerProvider.notifier).getCurrentPosition();
+    final stream = ref.read(playerProvider).positionStream;
 
     _durationSubscription = stream.listen((event) {
       setState(() {
@@ -55,7 +61,7 @@ class PlayerSeekState extends ConsumerState<PlayerSeek> {
       _currentSliderValue = value;
       _currentPosition = Duration(seconds: value.toInt());
 
-      ref.read(playerProvider.notifier).getPlayer().seek(_currentPosition);
+      ref.watch(playerProvider).seek(_currentPosition);
     });
   }
 

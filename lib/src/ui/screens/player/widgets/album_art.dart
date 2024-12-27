@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:music_player/src/models/music.dart';
-import 'package:music_player/src/providers/player_provider.dart';
+import 'package:music_player/src/providers/song_provider.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
 class AlbumArt extends ConsumerWidget {
@@ -9,7 +9,7 @@ class AlbumArt extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    Music music = ref.watch(playerProvider);
+    Music music = ref.watch(songProvider);
     return Column(
       children: [
         QueryArtworkWidget(

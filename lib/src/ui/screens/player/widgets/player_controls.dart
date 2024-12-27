@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:music_player/src/enum/repeat.dart';
 import 'package:music_player/src/providers/player_provider.dart';
+import 'package:music_player/src/providers/song_provider.dart';
 
 class PlayerControls extends ConsumerStatefulWidget {
   const PlayerControls({super.key});
@@ -12,39 +13,32 @@ class PlayerControls extends ConsumerStatefulWidget {
 }
 
 class PlayerControlsState extends ConsumerState<PlayerControls> {
-  bool isMusicPlaying = false;
   bool isShuffle = false;
+  bool isMusicPlaying = false;
   RepeatMode repeatMode = RepeatMode.RepeatNone;
-  late AudioPlayer player;
 
   @override
   void initState() {
     super.initState();
-    player = ref.read(playerProvider.notifier).getPlayer();
+    isMusicPlaying = ref.read(playerProvider).playing;
   }
 
   void playPause() async {
-    final AudioPlayer player = ref.read(playerProvider.notifier).getPlayer();
+    bool isPlaying = ref.read(playerProvider).playing;
 
-    if (isMusicPlaying) {
-      player.pause();
-    } else {
-      player.play();
-    }
     setState(() {
-      isMusicPlaying = !isMusicPlaying;
+      isMusicPlaying = !isPlaying;
     });
-  }
 
-  @override
-  void dispose() {
-    isMusicPlaying = false;
-    player.stop();
-    super.dispose();
+    if (isPlaying) {
+      await ref.watch(playerProvider).pause();
+    } else {
+      await ref.watch(playerProvider).play();
+    }
   }
 
   IconButton getRepeatModeIcon() {
-    AudioPlayer player = ref.read(playerProvider.notifier).getPlayer();
+    AudioPlayer player = ref.read(playerProvider);
     switch (repeatMode) {
       case RepeatMode.RepeatAll:
         return IconButton(

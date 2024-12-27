@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:music_player/src/providers/player_provider.dart';
+import 'package:music_player/src/providers/song_provider.dart';
 import 'package:music_player/src/routes/route_constants.dart';
 import 'package:music_player/src/services/home_service.dart';
 
@@ -38,8 +39,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   void onTapMusicTile(SongModel song) async {
     if (song.uri == null) return;
-    ref.read(playerProvider.notifier).setMusicMetaData(song);
-    ref.read(playerProvider.notifier).setUrl(song.uri!);
+    ref.read(songProvider.notifier).setMusicMetaData(song);
+    ref.read(songProvider.notifier).setUrl(song.uri!);
     GoRouter.of(context).pushNamed(RouteConstants.player);
   }
 

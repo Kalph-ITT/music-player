@@ -12,4 +12,20 @@ class Music {
     required this.url,
     required this.duration,
   });
+
+  Music copyWith({
+    String? title,
+    String? url,
+    double? duration,
+    String? artist,
+    int? id,
+  }) {
+    return Music(
+      title: title ?? this.title,
+      url: url ?? this.url,
+      duration: duration ?? this.duration,
+      artist: artist ?? this.artist,
+      id: id ?? this.id,
+    );
+  }
 }
