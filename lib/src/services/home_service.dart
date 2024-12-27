@@ -18,6 +18,8 @@ class HomeService {
       ignoreCase: true,
     );
 
+    print(audios);
+
     return audios;
   }
 }
