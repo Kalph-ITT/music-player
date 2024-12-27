@@ -10,15 +10,12 @@ class HomeService {
     final OnAudioQuery audioQuery = OnAudioQuery();
     var isGranted = await checkPermissions();
     if (!isGranted) {
-      print('Permission not granted');
       return [];
     }
 
     List<SongModel> audios = await audioQuery.querySongs(
       ignoreCase: true,
     );
-
-    print(audios);
 
     return audios;
   }

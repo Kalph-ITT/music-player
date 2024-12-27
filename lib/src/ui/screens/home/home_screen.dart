@@ -40,16 +40,21 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   void onTapMusicTile(SongModel song) async {
     if (song.uri == null) return;
     ref.read(songProvider.notifier).setMusicMetaData(song);
-    ref.read(songProvider.notifier).setUrl(song.uri!);
-    await ref.read(playerProvider.notifier).setUrl(song.uri!);
+
+    await ref.read(playerProvider.notifier).setAudioSource(
+          id: song.id.toString(),
+          title: song.title,
+          url: song.uri!,
+          duration: Duration(milliseconds: song.duration!),
+        );
 
     GoRouter.of(context).pushNamed(RouteConstants.player);
   }
 
   onPlayClicked() async {
-    await ref
-        .read(playerProvider.notifier)
-        .setUrl('https://www2.cs.uic.edu/~i101/SoundFiles/StarWars60.wav');
+    // await ref
+    //     .read(playerProvider.notifier)
+    //     .setUrl('https://www2.cs.uic.edu/~i101/SoundFiles/StarWars60.wav');
     GoRouter.of(context).pushNamed(RouteConstants.player);
   }
 

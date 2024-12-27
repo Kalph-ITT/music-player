@@ -8,10 +8,6 @@ class SongProviderNotifier extends StateNotifier<Music> {
           Music(title: '', url: '', duration: 0.0, artist: '', id: 0),
         );
 
-  void setUrl(String url) {
-    state = state.copyWith(url: url);
-  }
-
   void setMusicMetaData(SongModel song) {
     state = state.copyWith(
       id: song.id,
