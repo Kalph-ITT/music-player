@@ -11,7 +11,7 @@ class PlayerScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: Header(
-        title: 'Player',
+        title: 'Now Playing',
       ),
       body: SizedBox(
         width: double.infinity,

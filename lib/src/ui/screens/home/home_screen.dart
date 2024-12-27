@@ -41,6 +41,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     if (song.uri == null) return;
     ref.read(songProvider.notifier).setMusicMetaData(song);
     ref.read(songProvider.notifier).setUrl(song.uri!);
+    await ref.read(playerProvider.notifier).setUrl(song.uri!);
+
     GoRouter.of(context).pushNamed(RouteConstants.player);
   }
 
@@ -53,8 +55,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    bool isPlaying = ref.read(playerProvider).playing;
+
     return Scaffold(
-      bottomNavigationBar: BottomPlayer(),
+      bottomNavigationBar: isPlaying ? BottomPlayer() : null,
       appBar: Header(
         title: 'Music player',
       ),

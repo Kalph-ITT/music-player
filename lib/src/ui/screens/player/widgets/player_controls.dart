@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:music_player/src/enum/repeat.dart';
 import 'package:music_player/src/providers/player_provider.dart';
-import 'package:music_player/src/providers/song_provider.dart';
 
 class PlayerControls extends ConsumerStatefulWidget {
   const PlayerControls({super.key});
@@ -31,9 +30,9 @@ class PlayerControlsState extends ConsumerState<PlayerControls> {
     });
 
     if (isPlaying) {
-      await ref.watch(playerProvider).pause();
+      await ref.read(playerProvider).pause();
     } else {
-      await ref.watch(playerProvider).play();
+      await ref.read(playerProvider).play();
     }
   }
 
