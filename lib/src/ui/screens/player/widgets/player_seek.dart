@@ -47,10 +47,7 @@ class PlayerSeekState extends ConsumerState<PlayerSeek> {
     _durationSubscription = stream.listen((event) {
       setState(() {
         _currentPosition = event;
-
         _currentSliderValue = event.inSeconds.toDouble();
-
-        print(_currentSliderValue);
       });
     });
   }
