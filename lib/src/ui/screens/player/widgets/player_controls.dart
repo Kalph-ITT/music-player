@@ -15,9 +15,17 @@ class PlayerControlsState extends ConsumerState<PlayerControls> {
   bool isMusicPlaying = false;
   bool isShuffle = false;
   RepeatMode repeatMode = RepeatMode.RepeatNone;
+  late AudioPlayer player;
+
+  @override
+  void initState() {
+    super.initState();
+    player = ref.read(playerProvider.notifier).getPlayer();
+  }
 
   void playPause() async {
-    final player = ref.read(playerProvider.notifier).getPlayer();
+    final AudioPlayer player = ref.read(playerProvider.notifier).getPlayer();
+
     if (isMusicPlaying) {
       player.pause();
     } else {
@@ -26,6 +34,13 @@ class PlayerControlsState extends ConsumerState<PlayerControls> {
     setState(() {
       isMusicPlaying = !isMusicPlaying;
     });
+  }
+
+  @override
+  void dispose() {
+    isMusicPlaying = false;
+    player.stop();
+    super.dispose();
   }
 
   IconButton getRepeatModeIcon() {

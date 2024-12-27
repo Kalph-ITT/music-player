@@ -26,11 +26,13 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   @override
   void initState() {
     super.initState();
+    scanFiles();
+  }
 
-    HomeService().scanFiles().then((value) {
-      setState(() {
-        songs = value;
-      });
+  scanFiles() async {
+    List<SongModel> scannedSongs = await HomeService().scanFiles();
+    setState(() {
+      songs = scannedSongs;
     });
   }
 
@@ -38,6 +40,13 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     if (song.uri == null) return;
     ref.read(playerProvider.notifier).setMusicMetaData(song);
     ref.read(playerProvider.notifier).setUrl(song.uri!);
+    GoRouter.of(context).pushNamed(RouteConstants.player);
+  }
+
+  onPlayClicked() async {
+    await ref
+        .read(playerProvider.notifier)
+        .setUrl('https://www2.cs.uic.edu/~i101/SoundFiles/StarWars60.wav');
     GoRouter.of(context).pushNamed(RouteConstants.player);
   }
 
@@ -66,9 +75,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   PillButton(
                     label: 'Play',
                     icon: Icons.play_circle,
-                    onTap: () {
-                      GoRouter.of(context).pushNamed(RouteConstants.player);
-                    },
+                    onTap: onPlayClicked,
                   ),
                 ],
               ),

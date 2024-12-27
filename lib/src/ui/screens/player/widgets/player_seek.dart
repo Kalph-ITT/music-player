@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:music_player/src/providers/player_provider.dart';
@@ -15,27 +17,40 @@ class PlayerSeekState extends ConsumerState<PlayerSeek> {
   double _currentSliderValue = 0.0;
   Duration _currentPosition = Duration.zero;
   Duration totalDuration = Duration.zero;
+  StreamSubscription<Duration?>? _durationSubscription;
 
   @override
   initState() {
     super.initState();
+    getTotalDuration();
     getCurrentDuration();
+  }
+
+  @override
+  void dispose() {
+    print('player seek disposed');
+    _durationSubscription?.cancel();
+
+    super.dispose();
   }
 
   getTotalDuration() {
     var totalSeconds = ref.read(playerProvider).duration;
-    return Duration(seconds: totalSeconds.toInt());
+    setState(() {
+      totalDuration = Duration(seconds: totalSeconds.toInt());
+    });
   }
 
   void getCurrentDuration() {
     final stream = ref.read(playerProvider.notifier).getCurrentPosition();
 
-    stream.listen((event) {
+    _durationSubscription = stream.listen((event) {
       setState(() {
         _currentPosition = event;
-        if (_currentSliderValue < totalDuration.inSeconds.toDouble()) {
-          _currentSliderValue = event.inSeconds.toDouble();
-        }
+
+        _currentSliderValue = event.inSeconds.toDouble();
+
+        print(_currentSliderValue);
       });
     });
   }
@@ -51,9 +66,6 @@ class PlayerSeekState extends ConsumerState<PlayerSeek> {
 
   @override
   Widget build(BuildContext context) {
-    var totalDuration = getTotalDuration();
-    totalDuration = totalDuration ?? Duration.zero;
-
     return Column(
       children: [
         Slider(

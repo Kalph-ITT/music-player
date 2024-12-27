@@ -21,7 +21,7 @@ class PillButton extends StatelessWidget {
         child: InkWell(
           onTap: onTap,
           child: Container(
-            width: 150,
+            width: 160,
             padding: EdgeInsets.symmetric(horizontal: 20, vertical: 8),
             decoration: BoxDecoration(
               color: Colors.transparent,
@@ -34,6 +34,7 @@ class PillButton extends StatelessWidget {
               spacing: 10,
               children: [
                 Icon(
+                  size: 20,
                   icon,
                   color: Theme.of(context).colorScheme.primary,
                 ),
