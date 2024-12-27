@@ -28,9 +28,7 @@ class PlayerSeekState extends ConsumerState<PlayerSeek> {
 
   @override
   void dispose() {
-    print('player seek disposed');
     _durationSubscription?.cancel();
-
     super.dispose();
   }
 
